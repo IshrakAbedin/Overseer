@@ -17,13 +17,13 @@ namespace Overseer
         //}
         public static Interfaces GetInterfaces()
         {
-            var UnformattedInterfaces = Analyzer.getInterfaces();
+            var UnformattedInterfaces = Analyzer.GetInterfaces();
             var FormattedInterfaces = Interfaces.GetFromStringResult(UnformattedInterfaces);
             return FormattedInterfaces;
         }
         public static Stations GetStations(string interfaceName)
         {
-            var SSIDGetterTask = Analyzer.getSSIDsAsync(interfaceName);
+            var SSIDGetterTask = Analyzer.GetSSIDsAsync(interfaceName);
             SSIDGetterTask.Wait();
             var StationFormatterTask = Stations.GetFromStringResultAsync(SSIDGetterTask.Result);
             return StationFormatterTask.Result;

@@ -1,54 +1,78 @@
+using System;
 using System.Diagnostics;
 using System.Threading.Tasks;
+using System.Windows;
 
 namespace Overseer
 {
     static class Analyzer
     {
-        public static async Task<string> getSSIDsAsync(string InterfaceName)
+        public static async Task<string> GetSSIDsAsync(string InterfaceName)
         {
-            var res = await Task.Run(() => (getSSIDs(InterfaceName)));
+            var res = await Task.Run(() => (GetSSIDs(InterfaceName)));
             return res;
         }
 
-        public static string getSSIDs(string InterfaceName)
+        public static string GetSSIDs(string InterfaceName)
         {
-            Process P = new Process();
-            ProcessStartInfo PSI = new ProcessStartInfo();
-            PSI.CreateNoWindow = true;
-            PSI.FileName = "netsh.exe";
-            PSI.Arguments = "wlan show networks mode=bssid interface=" + "\"" + InterfaceName  +"\"";
-            PSI.RedirectStandardInput = true;
-            PSI.RedirectStandardOutput = true;
-            PSI.UseShellExecute = false;
-            P.StartInfo = PSI;
-            P.Start();
-            var result = P.StandardOutput.ReadToEnd();
-            P.WaitForExit();
-            return result;
+            try
+            {
+                Process P = new Process();
+                ProcessStartInfo PSI = new ProcessStartInfo
+                {
+                    CreateNoWindow = true,
+                    FileName = "netsh.exe",
+                    Arguments = "wlan show networks mode=bssid interface=" + "\"" + InterfaceName + "\"",
+                    RedirectStandardInput = true,
+                    RedirectStandardOutput = true,
+                    UseShellExecute = false
+                };
+                P.StartInfo = PSI;
+                P.Start();
+                var result = P.StandardOutput.ReadToEnd();
+                P.WaitForExit();
+                return result;
+            }
+            catch (Exception)
+            {
+                MessageBox.Show("Could not find netsh.exe, Exiting", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                Environment.Exit(1);
+            }
+            return null;
         }
 
-        public static async Task<string> getInterfacesAsync()
+        public static async Task<string> GetInterfacesAsync()
         {
-            var res = await Task.Run(() => (getInterfaces()));
+            var res = await Task.Run(() => (GetInterfaces()));
             return res;
         }
 
-        public static string getInterfaces()
+        public static string GetInterfaces()
         {
-            Process P = new Process();
-            ProcessStartInfo PSI = new ProcessStartInfo();
-            PSI.CreateNoWindow = true;
-            PSI.FileName = "netsh.exe";
-            PSI.Arguments = "wlan show interfaces";
-            PSI.RedirectStandardInput = true;
-            PSI.RedirectStandardOutput = true;
-            PSI.UseShellExecute = false;
-            P.StartInfo = PSI;
-            P.Start();
-            var result = P.StandardOutput.ReadToEnd();
-            P.WaitForExit();
-            return result;
+            try
+            {
+                Process P = new Process();
+                ProcessStartInfo PSI = new ProcessStartInfo
+                {
+                    CreateNoWindow = true,
+                    FileName = "netsh.exe",
+                    Arguments = "wlan show interfaces",
+                    RedirectStandardInput = true,
+                    RedirectStandardOutput = true,
+                    UseShellExecute = false
+                };
+                P.StartInfo = PSI;
+                P.Start();
+                var result = P.StandardOutput.ReadToEnd();
+                P.WaitForExit();
+                return result;
+            }
+            catch (Exception)
+            {
+                MessageBox.Show("Could not find netsh.exe, Exiting", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                Environment.Exit(1);
+            }
+            return null;
         }
     }
 }
