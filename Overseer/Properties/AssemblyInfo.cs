@@ -10,7 +10,7 @@ using System.Windows;
 [assembly: AssemblyTitle("Overseer")]
 [assembly: AssemblyDescription("")]
 [assembly: AssemblyConfiguration("")]
-[assembly: AssemblyCompany("")]
+[assembly: AssemblyCompany("Mohammad Ishrak Abedin")]
 [assembly: AssemblyProduct("Overseer")]
 [assembly: AssemblyCopyright("Copyright ©  2019")]
 [assembly: AssemblyTrademark("")]

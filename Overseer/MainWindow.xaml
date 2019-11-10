@@ -6,7 +6,7 @@
         xmlns:local="clr-namespace:Overseer"
         mc:Ignorable="d"
         x:Name="MainDow" Title="Overseer" Height="600" Width="1000" WindowStyle="None" ResizeMode="CanMinimize" AllowsTransparency="True"
-        Opacity="0.775" Background="#FF06000B" MouseDown="MainDow_MouseDown">
+        Opacity="0.775" Background="#FF06000B" MouseDown="MainDow_MouseDown" Icon="Resources/OverseerIcon.ico">
     <Window.Resources>
         <ControlTemplate x:Key="ComboBoxToggleButton" TargetType="{x:Type ToggleButton}">
             <Grid>
