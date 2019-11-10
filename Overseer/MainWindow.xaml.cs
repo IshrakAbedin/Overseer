@@ -179,5 +179,10 @@ namespace Overseer
         {
             UpdateAPView();
         }
+
+        private void TbMainTitle_MouseRightButtonDown(object sender, MouseButtonEventArgs e)
+        {
+            MessageBox.Show("Built by Mohammad Ishrak Abedin", "About Overseer", MessageBoxButton.OK, MessageBoxImage.Information);
+        }
     }
 }

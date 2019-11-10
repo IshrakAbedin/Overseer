@@ -238,8 +238,9 @@
                     </Style>
                 </Button.Style>
             </Button>
-            <TextBlock Text="OVERSEER" HorizontalAlignment="Left" VerticalAlignment="Top" Background="#00000000" Foreground="#FFFFFFFF"
-                   FontFamily="Magneto" FontSize="16" FontStyle="Italic" FontWeight="Bold" DockPanel.Dock="Left"/>
+            <TextBlock x:Name="TbMainTitle" Text="OVERSEER" HorizontalAlignment="Left" VerticalAlignment="Top" Background="#00000000"
+                       Foreground="#FFFFFFFF" FontFamily="Magneto" FontSize="16" FontStyle="Italic" FontWeight="Bold"
+                       DockPanel.Dock="Left" MouseRightButtonDown="TbMainTitle_MouseRightButtonDown"/>
         </DockPanel>
 
         <Grid x:Name="GridMid" Grid.Row="1">
@@ -269,7 +270,8 @@
                         <ColumnDefinition Width="30"/>
                     </Grid.ColumnDefinitions>
                     <Button x:Name="BtnRefresh" Content="Refresh" Grid.Row="0" Grid.ColumnSpan="2" Foreground="White" 
-                            Background="#FF006850" FontSize="16" FontWeight="Bold" Click="BtnRefresh_Click">
+                            Background="#FF006850" FontSize="16" FontWeight="Bold" Click="BtnRefresh_Click"
+                            ToolTip="Refresh Access Points List">
                         <Button.Style>
                             <Style TargetType="Button">
                                 <Setter Property="OverridesDefaultStyle" Value="True"/>
@@ -300,7 +302,7 @@
                     <ComboBox x:Name="ComBxInterfaces" Grid.Row="1" Grid.Column="0" FontSize="14" FontWeight="Bold"/>
                     <Button x:Name="BtnRefInt" Content="&#8634;" Grid.Row="1" Grid.Column="1" Foreground="White"
                             Background="#FF006850" FontSize="14" FontWeight="Bold" Height="30" Margin="0.4,0.4,0,0" VerticalAlignment="Top"
-                            Click="BtnRefInt_Click">
+                            Click="BtnRefInt_Click" ToolTip="Refresh Interfaces">
                         <Button.Style>
                             <Style TargetType="Button">
                                 <Setter Property="OverridesDefaultStyle" Value="True"/>
