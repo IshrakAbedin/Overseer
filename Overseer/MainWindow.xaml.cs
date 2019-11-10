@@ -147,7 +147,11 @@ namespace Overseer
 
         private void MainDow_MouseDown(object sender, MouseButtonEventArgs e)
         {
-            MainDow.DragMove();
+            if (e.ChangedButton == MouseButton.Left)
+            {
+                MainDow.DragMove();
+            }
+            e.Handled = true;
         }
 
         private void BtnExit_Click(object sender, RoutedEventArgs e)
