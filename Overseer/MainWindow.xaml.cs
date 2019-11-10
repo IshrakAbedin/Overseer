@@ -66,33 +66,37 @@ namespace Overseer
         private async void UpdateStations()
         {
             int selectedIndex = ComBxInterfaces.SelectedIndex;
-            string intfaceName = interfaceNames[selectedIndex];
-            if (intfaceName != null || intfaceName != "")
+            if (selectedIndex != -1)
             {
-                stations = await Task.Run(() => (AnalyzerFacade.GetStations(intfaceName)));
-            }
-            else stations = null;
-
-            if (stations != null)
-            {
-                apNames = await Task.Run(() => stations.GetSSIDNames());
-                TbInterfaceDesc.Text = interfaces.InterfaceList[selectedIndex].Description;
-                if (!stations.PoweredDown)
+                string intfaceName = interfaceNames[selectedIndex];
+                if (intfaceName != null || intfaceName != "")
                 {
-                    TbMsg.Text = stations.Message;
-                    drawnGraph = null;
-                    srcDrawnGraph = null;
-                    drawnGraph = await Task.Run(() => GraphCreator.GetDrawnGraph(blankGraph, stations.GetSSIDChannelSignalPairList(), graphBaseColor));
-                    GraphCreator.UpdateImageSourceFromBitmap(drawnGraph, ref srcDrawnGraph);
-                    ImgGraph.Source = srcDrawnGraph;
+                    stations = await Task.Run(() => (AnalyzerFacade.GetStations(intfaceName)));
                 }
-                else TbMsg.Text = "Wireless network service is currently powered down";
+                else stations = null;
+
+                if (stations != null)
+                {
+                    apNames = await Task.Run(() => stations.GetSSIDNames());
+                    TbInterfaceDesc.Text = interfaces.InterfaceList[selectedIndex].Description;
+                    if (!stations.PoweredDown)
+                    {
+                        TbMsg.Text = stations.Message;
+                        drawnGraph = null;
+                        srcDrawnGraph = null;
+                        drawnGraph = await Task.Run(() => GraphCreator.GetDrawnGraph(blankGraph, stations.GetSSIDChannelSignalPairList(), graphBaseColor));
+                        GraphCreator.UpdateImageSourceFromBitmap(drawnGraph, ref srcDrawnGraph);
+                        ImgGraph.Source = srcDrawnGraph;
+                    }
+                    else TbMsg.Text = "Wireless network service is currently powered down";
+                }
+                else
+                {
+                    apNames = null;
+                }
+                LstBxAPs.ItemsSource = apNames;
             }
-            else
-            {
-                apNames = null;
-            }
-            LstBxAPs.ItemsSource = apNames;
+            else return;
         }
 
         private async void UpdateInterfaceComboBox()
