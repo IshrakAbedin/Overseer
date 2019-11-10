@@ -1,18 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Drawing;
-using System.Linq;
-using System.Text;
+﻿using System.Collections.Generic;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
 
 namespace Overseer
 {
@@ -101,8 +92,8 @@ namespace Overseer
                         gout = graphMan.GetGraphOutput(gin);
                         foreach (var graphOut in gout)
                         {
-                            CanvasGraph.Children.Add(graphOut.Lbel);
-                            CanvasGraph.Children.Add(graphOut.PGon);
+                            CanvasGraph.Children.Add(graphOut.GraphLabel);
+                            CanvasGraph.Children.Add(graphOut.GraphPolygon);
                         }
                     }
                     else TbMsg.Text = "Wireless network service is currently powered down";

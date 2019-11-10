@@ -21,30 +21,19 @@ namespace Overseer
     struct GraphOutput
     {
         public string Name { get; set; }
-        public Polygon PGon { get; set; }
-        public Label Lbel { get; set; }
+        public Polygon GraphPolygon { get; set; }
+        public Label GraphLabel { get; set; }
 
-        public GraphOutput(string name, Polygon pGon, Label lbel) : this()
+        public GraphOutput(string name, Polygon polygon, Label label) : this()
         {
             Name = name;
-            PGon = pGon;
-            Lbel = lbel;
+            GraphPolygon = polygon;
+            GraphLabel = label;
         }
     }
 
     class GraphManager
     {
-        //public string stationName;
-        //public int channelNo = 13;
-        //int signalStrength = 50;
-        //int channelWidth = 45;
-        //int origin = 44;
-        //int orix = origin + channelWidth;
-        //int oriy = origin;
-        //int xl = orix + (channelWidth * (channelNo - 2));
-        //int xr = orix + (channelWidth * (channelNo + 2));
-        //int yb = 270 - oriy;
-        //int yt = 270 - (2 * signalStrength + oriy);
         public int Origin { get; set; }
         public int ChannelWidth { get; set; }
         public int GraphWidth { get; set; }
@@ -136,15 +125,15 @@ namespace Overseer
                 {
                     if(graph.Name == Selected)
                     {
-                        graph.PGon.Stroke = HighlightedStrokeBrush;
-                        graph.PGon.Fill = HighlightedFillBrush;
-                        graph.Lbel.Foreground = HighlightedLabelBrush;
+                        graph.GraphPolygon.Stroke = HighlightedStrokeBrush;
+                        graph.GraphPolygon.Fill = HighlightedFillBrush;
+                        graph.GraphLabel.Foreground = HighlightedLabelBrush;
                     }
                     else if(graph.Name == Deselected)
                     {
-                        graph.PGon.Stroke = BaseStrokeBrush;
-                        graph.PGon.Fill = BaseFillBrush;
-                        graph.Lbel.Foreground = BaseLabelBrush;
+                        graph.GraphPolygon.Stroke = BaseStrokeBrush;
+                        graph.GraphPolygon.Fill = BaseFillBrush;
+                        graph.GraphLabel.Foreground = BaseLabelBrush;
                     }
                 }
             }
