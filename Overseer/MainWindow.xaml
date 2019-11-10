@@ -428,12 +428,12 @@
                                Padding="0, 0, 20, 0"/>
                     </DockPanel>
                 </Grid>
-                <Grid x:Name="GridGraph" Grid.Row="1">
-                    <Grid.Background>
+                <Canvas x:Name="CanvasGraph" Grid.Row="1" Margin="0">
+                    <Canvas.Background>
                         <ImageBrush ImageSource="Resources/GraphBase.png"/>
-                    </Grid.Background>
-                    <Image x:Name="ImgGraph" Margin="0"/>
-                </Grid>
+                    </Canvas.Background>
+                    <!--Components will be added here during computation-->
+                </Canvas>
             </Grid>
         </Grid>
 

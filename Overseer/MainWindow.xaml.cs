@@ -25,20 +25,27 @@ namespace Overseer
         List<string> apNames;
         Stations stations;
         Interfaces interfaces;
-        Bitmap blankGraph;
-        Bitmap drawnGraph;
-        Bitmap highlightedGraph;
-        ImageSource srcBlankGraph;
-        ImageSource srcDrawnGraph;
-        ImageSource srcHighlightedGraph;
-        System.Drawing.Color graphBaseColor;
-        System.Drawing.Color graphHighlightColor;
+        GraphManager graphMan;
+        List<GraphOutput> gout;
+        List<GraphInput> gin;
+        SolidColorBrush baseFillBrush;
+        SolidColorBrush baseStrokeBrush;
+        SolidColorBrush highlightedFillBrush;
+        SolidColorBrush highlightedStrokeBrush;
+        string previousSelection = "";
+
         public MainWindow()
         {
-            graphBaseColor = System.Drawing.Color.FromArgb(255, 0, 255, 195);
-            graphHighlightColor = System.Drawing.Color.FromArgb(255, 0, 182, 255);
-            blankGraph = GraphCreator.GetBlankGraph(800, 270);
-            GraphCreator.UpdateImageSourceFromBitmap(blankGraph, ref srcBlankGraph);
+            baseFillBrush = new SolidColorBrush(Color.FromArgb(30, 0, 255, 195));
+            baseStrokeBrush = new SolidColorBrush(Color.FromArgb(255, 0, 255, 195));
+            highlightedFillBrush = new SolidColorBrush(Color.FromArgb(30, 0, 180, 255));
+            highlightedStrokeBrush = Brushes.BlueViolet;
+            gin = new List<GraphInput>();
+            graphMan = new GraphManager(44, 45, 800, 270, baseFillBrush, baseStrokeBrush, highlightedFillBrush, highlightedStrokeBrush, 10)
+            {
+                BaseLabelBrush = Brushes.White,
+                HighlightedLabelBrush = Brushes.BlueViolet
+            };
             InitializeComponent();
             ResetView();
             UpdateInterfaceComboBox();
@@ -58,9 +65,9 @@ namespace Overseer
             TbOtherRates.Text = "---";
             TbInterfaceDesc.Text = "---";
             TbMsg.Text = "";
+            previousSelection = "";
             LstBxAPs.ItemsSource = null;
-            ImgGraph.Source = srcBlankGraph;
-            //ComBxInterfaces.ItemsSource = null;
+            CanvasGraph.Children.Clear();
         }
 
         private async void UpdateStations()
@@ -71,22 +78,32 @@ namespace Overseer
                 string intfaceName = interfaceNames[selectedIndex];
                 if (intfaceName != null || intfaceName != "")
                 {
+                    if (stations != null) stations.StationList.Clear();
+                    stations = null;
                     stations = await Task.Run(() => (AnalyzerFacade.GetStations(intfaceName)));
                 }
                 else stations = null;
 
                 if (stations != null)
                 {
+                    if (apNames != null) apNames.Clear();
+                    apNames = null;
                     apNames = await Task.Run(() => stations.GetSSIDNames());
                     TbInterfaceDesc.Text = interfaces.InterfaceList[selectedIndex].Description;
                     if (!stations.PoweredDown)
                     {
                         TbMsg.Text = stations.Message;
-                        drawnGraph = null;
-                        srcDrawnGraph = null;
-                        drawnGraph = await Task.Run(() => GraphCreator.GetDrawnGraph(blankGraph, stations.GetSSIDChannelSignalPairList(), graphBaseColor));
-                        GraphCreator.UpdateImageSourceFromBitmap(drawnGraph, ref srcDrawnGraph);
-                        ImgGraph.Source = srcDrawnGraph;
+                        gin.Clear();
+                        foreach(var station in stations.StationList)
+                        {
+                            gin.Add(new GraphInput(station.Name, station.GetChannelSignalPair()));
+                        }
+                        gout = graphMan.GetGraphOutput(gin);
+                        foreach (var graphOut in gout)
+                        {
+                            CanvasGraph.Children.Add(graphOut.Lbel);
+                            CanvasGraph.Children.Add(graphOut.PGon);
+                        }
                     }
                     else TbMsg.Text = "Wireless network service is currently powered down";
                 }
@@ -110,7 +127,7 @@ namespace Overseer
             }
         }
 
-        private async void UpdateAPView()
+        private void UpdateAPView()
         {
             if(stations != null && LstBxAPs.SelectedIndex != -1)
             {
@@ -132,15 +149,8 @@ namespace Overseer
                         break;
                     }
                 }
-                var chnsigpair = selectedStation.GetChannelSignalPair();
-                if(chnsigpair != null)
-                {
-                    highlightedGraph = null;
-                    srcHighlightedGraph = null;
-                    highlightedGraph = await Task.Run(() => GraphCreator.GetDrawnGraph(drawnGraph, chnsigpair, graphHighlightColor));
-                    GraphCreator.UpdateImageSourceFromBitmap(highlightedGraph, ref srcHighlightedGraph);
-                    ImgGraph.Source = srcHighlightedGraph;
-                }
+                graphMan.HighlightGraph(selectedStation.Name, previousSelection);
+                previousSelection = selectedStation.Name;
             }
         }
 
@@ -151,12 +161,12 @@ namespace Overseer
 
         private void BtnExit_Click(object sender, RoutedEventArgs e)
         {
-            this.Close();
+            Close();
         }
 
         private void BtnMinimize_Click(object sender, RoutedEventArgs e)
         {
-            this.WindowState = WindowState.Minimized;
+            WindowState = WindowState.Minimized;
         }
 
         private void BtnRefresh_Click(object sender, RoutedEventArgs e)

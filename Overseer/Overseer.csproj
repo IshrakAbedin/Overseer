@@ -69,7 +69,6 @@
   <ItemGroup>
     <Reference Include="System" />
     <Reference Include="System.Data" />
-    <Reference Include="System.Drawing" />
     <Reference Include="System.Xml" />
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="System.Core" />
@@ -89,7 +88,7 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Compile Include="AnalyzerFacade.cs" />
-    <Compile Include="GraphCreator.cs" />
+    <Compile Include="GraphManager.cs" />
     <Compile Include="Pair.cs" />
     <Compile Include="SSID.cs" />
     <Compile Include="Stations.cs" />

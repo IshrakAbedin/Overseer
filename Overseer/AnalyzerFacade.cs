@@ -8,13 +8,6 @@ namespace Overseer
 {
     static class AnalyzerFacade
     {
-        //public static Interfaces getInterfaces()
-        //{
-        //    var InterfaceGetterTask = Analyzer.getInterfacesAsync();
-        //    InterfaceGetterTask.Wait();
-        //    var InterfaceFormatterTask = Interfaces.getFromStringResultAsync(InterfaceGetterTask.Result);
-        //    return InterfaceFormatterTask.Result;
-        //}
         public static Interfaces GetInterfaces()
         {
             var UnformattedInterfaces = Analyzer.GetInterfaces();
