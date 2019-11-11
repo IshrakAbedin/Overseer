@@ -55,7 +55,7 @@
   <PropertyGroup>
     <ApplicationIcon>Resources\OverseerIcon.ico</ApplicationIcon>
   </PropertyGroup>
-  <PropertyGroup>
+  <!-- <PropertyGroup>
     <ManifestCertificateThumbprint>E2245A66D9E89EC88D1B94F1E129A061B3B65D6E</ManifestCertificateThumbprint>
   </PropertyGroup>
   <PropertyGroup>
@@ -66,7 +66,7 @@
   </PropertyGroup>
   <PropertyGroup>
     <SignManifests>false</SignManifests>
-  </PropertyGroup>
+  </PropertyGroup> -->
   <ItemGroup>
     <Reference Include="System" />
     <Reference Include="System.Data" />
