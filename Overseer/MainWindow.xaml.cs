@@ -87,7 +87,8 @@ namespace Overseer
                         gin.Clear();
                         foreach(var station in stations.StationList)
                         {
-                            gin.Add(new GraphInput(station.Name, station.GetChannelSignalPair()));
+                            if(station.GetChannelSignalPair() != null)
+                              gin.Add(new GraphInput(station.Name, station.GetChannelSignalPair()));
                         }
                         gout = graphMan.GetGraphOutput(gin);
                         foreach (var graphOut in gout)

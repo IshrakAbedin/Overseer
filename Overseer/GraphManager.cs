@@ -77,41 +77,49 @@ namespace Overseer
         public List<GraphOutput> GetGraphOutput(List<GraphInput> graphInputList)
         {
             graphOutputList.Clear();
-            int orix = Origin + ChannelWidth;
-            int oriy = Origin;
-
-            foreach (var graphInput in graphInputList)
+            try
             {
-                int xl = orix + (ChannelWidth * (graphInput.ChannelStation.Channel - 2));
-                int xr = orix + (ChannelWidth * (graphInput.ChannelStation.Channel + 2));
-                int yb = 270 - oriy;
-                int yt = 270 - (2 * graphInput.ChannelStation.Strength + oriy);
-                Polygon pg = new Polygon()
+                int orix = Origin + ChannelWidth;
+                int oriy = Origin;
+
+                foreach (var graphInput in graphInputList)
                 {
-                    Points = new PointCollection
+                  int xl = orix + (ChannelWidth * (graphInput.ChannelStation.Channel - 2));
+                  int xr = orix + (ChannelWidth * (graphInput.ChannelStation.Channel + 2));
+                  int yb = 270 - oriy;
+                  int yt = 270 - (2 * graphInput.ChannelStation.Strength + oriy);
+                  Polygon pg = new Polygon()
+                  {
+                      Points = new PointCollection
                             {
                                 new Point(xl, yb),
                                 new Point(xl + 5, yt),
                                 new Point(xr - 5, yt),
                                 new Point(xr, yb)
                             },
-                    Fill = BaseFillBrush,
-                    Stroke = BaseStrokeBrush,
-                    StrokeThickness = this.StrokeThickness
-                };
-                Label lb = new Label()
-                {
-                    Content = graphInput.Name,
-                    Foreground = BaseLabelBrush,
-                    FontSize = FontSize,
-                    FontWeight = FontWeights.Bold,
-                    Background = Brushes.Transparent,
-                    BorderBrush = Brushes.Transparent
-                };
-                Canvas.SetLeft(lb, xl + 2 * ChannelWidth - graphInput.Name.Length * 10 / 2.5);
-                Canvas.SetTop(lb, yt);
-                graphOutputList.Add(new GraphOutput(graphInput.Name, pg, lb));
+                      Fill = BaseFillBrush,
+                      Stroke = BaseStrokeBrush,
+                      StrokeThickness = this.StrokeThickness
+                  };
+                  Label lb = new Label()
+                  {
+                      Content = graphInput.Name,
+                      Foreground = BaseLabelBrush,
+                      FontSize = FontSize,
+                      FontWeight = FontWeights.Bold,
+                      Background = Brushes.Transparent,
+                      BorderBrush = Brushes.Transparent
+                  };
+                  Canvas.SetLeft(lb, xl + 2 * ChannelWidth - graphInput.Name.Length * 10 / 2.5);
+                  Canvas.SetTop(lb, yt);
+                  graphOutputList.Add(new GraphOutput(graphInput.Name, pg, lb));
+                }
             }
+            catch (System.Exception e)
+            {
+              MessageBox.Show(e.Message);
+            }
+            
             return graphOutputList;
     }
 
